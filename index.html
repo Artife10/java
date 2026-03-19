@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="UTF-8">
+<title>Async + JSON</title>
+</head>
+<body>
+
+<h1>Async + JSON</h1>
+<p id="kiiros"></p>
+
+<script>
+const kiiros = document.getElementById("kiiros");
+let szov = ""
+
+function Kiir(sz){
+    szov += sz+"<br>";
+    kiiros.innerHTML = szov;
+}
+
+
+/*
+Minden feladatot külön függvényben oldj meg!
+Használj async/await-et ahol szükséges!
+*/
+
+// 1. JSON → Objektum
+
+/*
+Adott:
+
+const json = '{"varos":"Szeged","lakossag":160000}';
+
+Alakítsd objektummá és írd ki a város nevét!
+*/
+
+
+function elso(){
+    Kiir("<br><br><br>ELSŐ FELADAT---------<br>")
+    const json = '{"varos":"Szeged","lakossag":160000}';
+    let valott = JSON.parse(json);
+    Kiir(valott.varos);
+}
+elso();
+
+
+// 2. JSON tömb feldolgozása
+
+/*
+Adott:
+
+const json = `
+[
+ {"nev":"Laci","sport":"foci"},
+ {"nev":"Zsófi","sport":"úszás"}
+]
+`;
+
+Parse-old és írd ki,
+hogy ki milyen sportot űz!
+*/
+
+function masod(){
+    Kiir("<br><br><br>MÁSODIK FELADAT---------<br>")
+    const json = `[{"nev":"Laci","sport":"foci"},{"nev":"Zsófi","sport":"úszás"}]`;
+    let valott = JSON.parse(json);
+    
+    valott.forEach(x=> Kiir(x.nev + " | " + x.sport));
+}
+masod();
+
+
+
+// 3. Objektum → JSON
+
+/*
+Hozz létre egy film objektumot:
+
+cím
+rendező
+év
+
+Majd alakítsd JSON szöveggé!
+*/
+
+function harmad(){
+    Kiir("<br><br><br>HARMADIK FELADAT---------<br>")
+    const json = [{"cim":"Boldog lovak", "rendezo":"Delelő", "ev":1900},{"cim":"Who killed captain Alex", "rendezo":"Uganda", "ev":2002}];
+    let valott = JSON.stringify(json);
+    
+    Kiir(valott)
+}
+harmad();
+
+
+
+// 4. Promise létrehozása
+
+/*
+Készíts egy Promise-ot, ami
+2 másodperc után visszaadja:
+
+"Adatok sikeresen betöltve!"
+*/
+const iger = new Promise((ww) => {setTimeout(ww, 2000);});
+
+// 5. Promise használata
+
+/*
+Hívd meg az előző Promise-ot
+és írd ki az eredményt
+.then() segítségével!
+*/
+
+function ötöd(){
+    iger.then( valami =>{
+        Kiir("<br><br><br>ÖTÖDIK FELADAT---------<br>")
+        Kiir("Adatok sikeresen betöltve")
+    });
+}
+ötöd();
+
+// 6. Async / Await
+
+/*
+Írd át az előző feladatot
+async/await használatával!
+*/
+
+function hatod(){
+
+    async function Load(){
+        
+        await iger;
+        Kiir("<br><br><br>HATODIK FELADAT---------<br>")
+        Kiir("Adatok sikeresen betöltve")
+
+    }
+    Load()
+}
+hatod();
+
+// 7. JSON visszaadása Promise-ból
+
+/*
+Készíts Promise-ot,
+ami 2 másodperc után visszaad egy JSON szöveget autókról.
+
+Majd:
+
+- await
+- parse
+- írd ki az autók márkáit
+*/
+
+const iger2 = new Promise((resolve) =>
+    {
+        let igerinner = new Promise((ee) => {setTimeout(ee, 2000);});
+        async function vaklegeny(){
+            await igerinner
+            resolve(`[{"marka":"Ford", "model":"Focus", "ev":2016},{"marka":"Toyota", "model":"Corollla", "ev":2012}]`)
+        }
+        vaklegeny()
+        
+});
+
+
+async function heted(){
+    iger2.then((x)=> {
+        Kiir("<br><br><br>HETEDIK FELADAT---------<br>")
+        let valami = JSON.parse(x)
+        valami.forEach(y=> Kiir(y.marka))
+    })
+}
+heted()
+
+// 8. Hiba kezelése
+
+/*
+Készíts Promise-ot,
+ami 50% eséllyel hibát dob.
+
+Használj try/catch-et
+és írd ki:
+
+"Siker"
+vagy
+"Hiba történt"
+*/
+const igeres = new Promise((resolve)=>{
+    let x = Math.floor(Math.random()*2)
+
+    if(x == 0){
+        resolve("Siker")
+    }
+    else{
+        resolve("Hiba történt")
+    }
+})
+
+function nyolcad(){
+    Kiir("<br><br><br>NYOLCADIK FELADAT---------<br>")
+    igeres.then(x=>Kiir(x))
+}
+nyolcad()
+
+
+// 9. JSON szűrés
+
+/*
+Adott JSON:
+
+diákok neve és pontszáma.
+
+Parse-old és írd ki
+csak azokat,
+akik 80 pont felett teljesítettek!
+*/
+
+const diakokjson = `[{"nev":"Cecil", "pont":96},{"nev":"Laci", "pont":83},{"nev":"Debil", "pont":72},{"nev":"Zsolt", "pont":21}]`
+
+function kilenced(){
+    let parsoltdiak = JSON.parse(diakokjson)
+    Kiir("<br><br><br>KILENCEDIK FELADAT---------<br>")
+    parsoltdiak.forEach(x=>{
+        if(){
+            
+        }
+    })
+}
+kilenced()
+
+
+// 10. Maximum keresése
+
+/*
+JSON tömbben
+termékek ára van.
+
+Parse-old,
+keresd meg
+a legdrágább terméket!
+*/
+
+// 11. Async adatfeldolgozás
+
+/*
+Készíts async függvényt,
+ami 2 másodperc után
+visszaad JSON tömböt
+sportolókról.
+
+Számold meg,
+hány sportoló van!
+*/
+// 12. JSON módosítása
+
+/*
+Parse-old a JSON tömböt,
+növeld minden termék árát 10%-kal,
+majd alakítsd vissza JSON szöveggé!
+*/
+
+// 13. Két Promise egymás után
+/*
+1. Promise visszaad egy JSON tömböt könyvekről
+2. A második kiszámolja
+a könyvek átlag árát
+
+Használj await-et!
+*/
+
+// 14. Betöltés szimuláció
+
+/*
+Írd ki:
+
+"Adatok betöltése..."
+
+3 másodperc után
+jelenjen meg
+egy JSON lista felhasználókról!
+*/
+
+// 15. Mini projekt
+/*
+Készíts programot ami:
+
+- JSON tömbben filmek vannak
+- async módon "betölti"
+- kiszámolja:
+
+    - hány film van
+    - melyik a legrégebbi
+
+- írd ki az eredményt!
+*/
+
+</script>
+
+</body>
+</html>
