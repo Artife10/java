@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    button { margin: 5px; padding: 5px 10px; }
+    pre { background: #f4f4f4; padding: 10px; white-space: pre-wrap; }
+  </style>
+</head>
+<body>
+  <h1></h1>
+
+  <button onclick="feladat1()">1. Diákok nevei</button>
+  <button onclick="feladat2()">2. Új diák hozzáadása</button>
+  <button onclick="feladat3()">3. Diák módosítása</button>
+  <button onclick="feladat4()">4. Diák törlése</button>
+  <button onclick="feladat5()">5. Átlagéletkor</button>
+  <button onclick="feladat6()">6. 18 éves vagy idősebb</button>
+  <button onclick="feladat7()">7. Név szerint rendezés</button>
+  <button onclick="feladat8()">8. Kor szerint csökkenő</button>
+  <button onclick="feladat9()">9. Legrégebbi diák</button>
+  <button onclick="feladat10()">10. Diák ellenőrzés név alapján</button>
+
+  <pre id="kimenet"></pre>
+
+  <script>
+        
+let diakok = [
+    { id: 1, nev: "Anna", kor: 18 },
+    { id: 2, nev: "Bence", kor: 17 },      
+    { id: 3, nev: "Csilla", kor: 19 }
+ ];
+
+ // --------------------
+ // Függvények
+// --------------------
+
+function kiir(adat) 
+{
+  document.getElementById('kimenet').textContent = JSON.stringify(adat, null, 2);
+}
+
+function feladat1(){
+    kiir(diakok.map(x=> x.nev))
+}
+
+function feladat2(){
+    let y = { id: diakok[diakok.length-1].id+1, nev: "", kor: 0 }
+    let x = prompt('NÉV');
+    y.nev = x
+    x = prompt('KOR');
+    y.kor = parseInt(x)
+    diakok.push(y)
+    kiir(diakok[diakok.length-1])
+}
+
+function feladat3(){
+    let y = { id: diakok[diakok.length-1].id+1, nev: "", kor: 0 }
+    id2 = parseInt(prompt('ID'))
+    let x = prompt('NÉV');
+    y.nev = x
+    x = prompt('KOR');
+    y.kor = parseInt(x)
+    diakok[id2-1] = y
+    kiir(diakok)
+}
+
+function feladat4(){
+    id2 = parseInt(prompt('ID'))
+    if (id2>0 && id2 !=null) {
+       diakok.splice(id2-1, 1)
+    }
+
+    kiir(diakok)
+}
+
+function feladat5(){
+    kiir(diakok.map(x=> x.kor).reduce((a, b) => a + b) / diakok.length)
+
+}
+
+function feladat6(){
+    let eletkorosok = []
+    diakok.forEach(x=>{
+        if (x.kor>17){
+            eletkorosok.push(x)
+        }
+    })
+    kiir(eletkorosok)
+}
+
+function feladat7() {
+    kiir(diakok.sort(x=> x.nev))
+}
+
+function feladat8() {
+    kiir(diakok.sort((a,b)=> a.kor-b.kor).reverse())
+}
+
+function feladat9() {
+    kiir(diakok[0])
+}
+function feladat10() {
+    let nev = prompt("NÉV")
+    if(diakok.find(x=> x.nev==nev)){
+        kiir(diakok.find(x=> x.nev==nev))
+    }
+    else{
+        kiir("NEM LÉTEZIK")
+    }
+}
+
+  </script>
+</body>
+</html>
