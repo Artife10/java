@@ -223,8 +223,8 @@ function kilenced(){
     let parsoltdiak = JSON.parse(diakokjson)
     Kiir("<br><br><br>KILENCEDIK FELADAT---------<br>")
     parsoltdiak.forEach(x=>{
-        if(){
-            
+        if(x.pont > 80){
+            Kiir(x.nev)
         }
     })
 }
@@ -241,6 +241,25 @@ Parse-old,
 keresd meg
 a legdrágább terméket!
 */
+const termekjson = `[{"nev":"medve", "ar":96},{"nev":"tojas", "ar":83},{"nev":"tej", "ar":72},{"nev":"kenyer", "ar":21}]`
+function tizes(){
+    let termektdiak = JSON.parse(termekjson)
+    Kiir("<br><br><br>TIZEDIK FELADAT---------<br>")
+    let i = 0
+    let nev = ""
+    termektdiak.forEach(x=>{
+        if(x.ar > i){
+            i = x.ar
+            nev = x.nev
+        }
+    })
+    Kiir(nev)
+}
+tizes()
+
+
+
+
 
 // 11. Async adatfeldolgozás
 
@@ -253,6 +272,28 @@ sportolókról.
 Számold meg,
 hány sportoló van!
 */
+const iger3 = new Promise((resolve) =>
+    {
+        let igerinner = new Promise((ee) => {setTimeout(ee, 2000);});
+        async function vaklegeny(){
+            await igerinner
+            //most vegyük úgy hogy ezek sportolók nem kocsik
+            resolve(`[{"marka":"Ford", "model":"Focus", "ev":2016},{"marka":"Toyota", "model":"Corollla", "ev":2012}]`)
+        }
+        vaklegeny()
+        
+});
+
+
+async function tizenegy(){
+    iger3.then((x)=> {
+        Kiir("<br><br><br>TIZENEGYEDIK FELADAT---------<br>")
+        let valami = JSON.parse(x)
+        Kiir(valami.length)
+    })
+}
+tizenegy()
+
 // 12. JSON módosítása
 
 /*
@@ -260,6 +301,18 @@ Parse-old a JSON tömböt,
 növeld minden termék árát 10%-kal,
 majd alakítsd vissza JSON szöveggé!
 */
+const termekjson2 = `[{"nev":"medve", "ar":96},{"nev":"tojas", "ar":83},{"nev":"tej", "ar":72},{"nev":"kenyer", "ar":21}]`
+
+function tizenketto(){
+    Kiir("<br><br><br>TIZENKETTEDIK FELADAT---------<br>")
+    let sza = JSON.parse(termekjson2)
+    sza.forEach(x=>x.ar=x.ar+(x.ar*0.1));
+    let updatesza = JSON.stringify(sza)
+    Kiir(updatesza)
+
+}
+tizenketto()
+
 
 // 13. Két Promise egymás után
 /*
@@ -269,6 +322,27 @@ a könyvek átlag árát
 
 Használj await-et!
 */
+
+
+const jon = new Promise((resolve)=>{
+    let megy = new Promise((resolve)=>{
+    //ezek most könyvek, mert már fáj irogatni a json tömböket fejből bocsánat
+    resolve(`[{"nev":"medve", "ar":96},{"nev":"tojas", "ar":83},{"nev":"tej", "ar":72},{"nev":"kenyer", "ar":21}]`)
+    });
+    let xs = []
+    megy.then(x=> {xs=JSON.parse(x)})
+    let c = 0
+    for(let i = 0; i < xs.length; i++){
+        c+= xs[i].ar
+    }
+    resolve(c/xs.length)
+});
+
+function tizenharmas(){
+    Kiir("<br><br><br>TIZENHARMADIK FELADAT---------<br>")
+    jon.then(x=>Kiir(x))
+}
+tizenharmas()
 
 // 14. Betöltés szimuláció
 
